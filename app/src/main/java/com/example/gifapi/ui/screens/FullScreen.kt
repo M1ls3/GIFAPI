@@ -18,6 +18,7 @@ import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.decode.GifDecoder
 import coil.decode.ImageDecoderDecoder
+import com.example.gifapi.ui.theme.GIFAPITheme
 
 
 class FullscreenActivity : ComponentActivity() {
@@ -26,7 +27,7 @@ class FullscreenActivity : ComponentActivity() {
         val gifUrl = intent.getStringExtra("gif_url") ?: ""
 
         setContent {
-            GifViewerAppTheme {
+            GIFAPITheme {
                 FullscreenScreen(gifUrl = gifUrl)
             }
         }

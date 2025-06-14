@@ -25,6 +25,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.foundation.lazy.grid.items
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.compose.foundation.lazy.grid.items
 
 import androidx.compose.ui.unit.dp
 import coil.ImageLoader
@@ -40,8 +43,6 @@ fun MainScreen() {
     val viewModel: MainViewModel = viewModel()
     val context = LocalContext.current
 
-    // Слідкуємо за станом мережі
-    val connectionState by remember { mutableStateOf(ConnectionState.Available) }
 
     LaunchedEffect(Unit) {
         if (!context.isNetworkAvailable()) {
@@ -49,7 +50,7 @@ fun MainScreen() {
         }
     }
 
-    when (val state = viewModel.uiState) {
+    when (val state = viewModel.uiState.value) {
         is UiState.Loading -> CenterProgress()
         is UiState.Success -> GifGrid(gifs = state.gifs)
         is UiState.Error -> {
@@ -127,7 +128,6 @@ fun ErrorState() {
     }
 }
 
-// Допоміжна функція для перевірки мережі
 fun Context.isNetworkAvailable(): Boolean {
     val connectivityManager = getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager
     return connectivityManager.activeNetworkInfo?.isConnected == true
